@@ -21,4 +21,5 @@
             30
         </session-timeout>
     </session-config>
+    <!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl -->
 </web-app>

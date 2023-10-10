@@ -1,8 +1,3 @@
-<%-- 
-    Document   : Producto.jsp
-    Created on : 9 oct 2023, 21:42:30
-    Author     : Hogar
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
