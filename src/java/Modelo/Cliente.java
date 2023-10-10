@@ -1,24 +1,22 @@
 
 package Modelo;
 
-public class Empleado {
+public class Cliente {
     int id; //PK
     String dni;
     String nom;
-    String tel;
+    String dir;
     String estado;
-    String user;
-
-    public Empleado() {
+    public Cliente () {
+        
     }
 
-    public Empleado(int id, String dni, String nom, String tel, String estado, String user) {
+    public Cliente(int id, String dni, String nom, String dir, String estado) {
         this.id = id;
         this.dni = dni;
         this.nom = nom;
-        this.tel = tel;
+        this.dir = dir;
         this.estado = estado;
-        this.user = user;
     }
 
     public int getId() {
@@ -45,12 +43,12 @@ public class Empleado {
         this.nom = nom;
     }
 
-    public String getTel() {
-        return tel;
+    public String getDir() {
+        return dir;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setDir(String dir) {
+        this.dir = dir;
     }
 
     public String getEstado() {
@@ -59,14 +57,6 @@ public class Empleado {
 
     public void setEstado(String estado) {
         this.estado = estado;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
     
 }
