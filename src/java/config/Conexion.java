@@ -8,13 +8,14 @@ public class Conexion {
     Connection con;
     String url = "jdbc:mysql://localhost:3306/bd_ventas";
     String user="root";
-    String pass="123456"
+    String pass="";
     public Connection Conexion() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(url,user,pass);
+            System.out.println("Realiza la conexion de manera exitosa");
         } catch (Exception e) {
-            
+            System.out.println("Error en la conexion");
         }
         return con;
     }
