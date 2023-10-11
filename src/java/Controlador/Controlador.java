@@ -36,7 +36,7 @@ public class Controlador extends HttpServlet {
     //venta
     Venta v = new Venta();
     List<Venta>lista = new ArrayList<>();
-    int item=0;
+    int item;
     int cod;
     String descripcion;
     double precio;
@@ -237,6 +237,7 @@ public class Controlador extends HttpServlet {
             }            
             request.getRequestDispatcher("Producto.jsp").forward(request, response);
         }
+        //separar para venta
         if (menu.equals("NuevaVenta")) {
             v=new Venta();
             switch(accion) {
@@ -281,6 +282,24 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("lista", lista);
                     request.setAttribute("nserie", numeroserie);
                     break;
+                /*case "EditarProducto":
+                    System.out.println("Editar para producto en ventas");                   
+                    ide = Integer.parseInt(request.getParameter("id"));
+                    Cliente c = cdao.listarId(ide);
+                    request.setAttribute("cliente", c);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
+                    
+                    break;
+                case "ActualizarProducto":
+                    
+                    break;    
+                */    
+                case "EliminarProducto":
+                    ide = Integer.parseInt(request.getParameter("id"));
+                    
+                    request.getRequestDispatcher("Controlador?menu=NuevaVenta").forward(request, response);                    
+                    break;
+
                 case "GenerarVenta":
                     //stock
                     
@@ -312,9 +331,11 @@ public class Controlador extends HttpServlet {
                         v.setPrecio(lista.get(i).getPrecio());
                         vdao.guardarDetalleventas(v);
                     }
-                    request.setAttribute("nserie", numeroserie);
+                    request.getRequestDispatcher("Controlador?menu=NuevaVenta&accion=default").forward(request, response);
                     break;
                 default:
+                    lista.clear();
+                    item=0;
                     numeroserie = vdao.GenerarSerie();
                     if (numeroserie==null) {
                         numeroserie="00000001";

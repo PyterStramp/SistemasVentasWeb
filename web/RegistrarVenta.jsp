@@ -97,8 +97,8 @@
                                         <td>${list.getCantidad()}</td>
                                         <td>${list.getSubtotal()}</td>
                                         <td class="d-flex">
-                                            <a href="#" class="btn btn-warning">Editar</a>
-                                            <a href="#" class="btn btn-danger" style="margin-left: 10px">Eliminar</a>
+                                            <!-- <a class="btn btn-warning" href="Controlador?menu=NuevaVenta&accion=EditarProducto&id=${list.getItem()}">Editar</a> -->
+                                            <a class="btn btn-danger" href="Controlador?menu=NuevaVenta&accion=EliminarProducto&id=${list.getItem()}" style="margin-left: 10px">Eliminar</a>
                                         </td>
                                     </tr>
                                 </c:forEach>    
@@ -108,7 +108,6 @@
                     <div class="card-footer d-flex">
                         <div class="col-sm-6">
                             <a href="Controlador?menu=NuevaVenta&accion=GenerarVenta" onclick="print()" class="btn btn-success">Generar Venta</a>
-                            <input type="submit" name="accion" value="Cancelar" class="btn btn-danger">
                         </div>
                         <div class="col-sm-4 ml-auto">
                             <input type="text" name="txtTotal" value="$/. ${totalpagar}0" class="form-control text-center font-weight-bold">
