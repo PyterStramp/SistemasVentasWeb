@@ -245,6 +245,7 @@ public class Controlador extends HttpServlet {
                     cl.setDni(dni);
                     cl=cdao.buscar(dni);
                     request.setAttribute("c",cl);
+                    request.setAttribute("nserie", numeroserie);
                     break;
                 case "BuscarProducto":
                     int id = Integer.parseInt(request.getParameter("codigoproducto"));
@@ -253,6 +254,7 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("producto", pr);
                     request.setAttribute("lista", lista);
                     request.setAttribute("totalpagar", totalPagar);
+                    request.setAttribute("nserie", numeroserie);
                     break;
                 case "AgregarProducto":
                     request.setAttribute("c",cl);
@@ -274,10 +276,33 @@ public class Controlador extends HttpServlet {
                     for (int i=0; i<lista.size(); i++) {
                         totalPagar=totalPagar +lista.get(i).getSubtotal();
                     }
+                    
                     request.setAttribute("totalpagar", totalPagar);
                     request.setAttribute("lista", lista);
+                    request.setAttribute("nserie", numeroserie);
                     break;
-                    
+                case "GenerarVenta":
+                    //Guardar venta
+                    v.setIdcliente(cl.getId());
+                    v.setIdempleado(8);
+                    v.setNumserie(numeroserie);
+                    v.setFecha("2019-07-09");
+                    v.setMonto(totalPagar);
+                    System.out.println("Desde el objeto"+v.getMonto());
+                    v.setEstado("1");
+                    vdao.guardarVenta(v);
+                    //Guardar detalle venta
+                    int idv = Integer.parseInt(vdao.IdVentas());
+                    for (int i=0; i<lista.size(); i++) {
+                        v = new Venta();
+                        v.setId(idv);
+                        v.setIdproducto(lista.get(i).getIdproducto());
+                        v.setCantidad(lista.get(i).getCantidad());
+                        v.setPrecio(lista.get(i).getPrecio());
+                        vdao.guardarDetalleventas(v);
+                    }
+                    request.setAttribute("nserie", numeroserie);
+                    break;
                 default:
                     numeroserie = vdao.GenerarSerie();
                     if (numeroserie==null) {

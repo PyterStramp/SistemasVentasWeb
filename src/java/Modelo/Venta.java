@@ -138,6 +138,11 @@ public class Venta {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    @Override
+    public String toString() {
+        return "Venta{" + "id=" + id + ", item=" + item + ", idcliente=" + idcliente + ", idempleado=" + idempleado + ", idproducto=" + idproducto + ", Numserie=" + Numserie + ", DescripcionP=" + DescripcionP + ", fecha=" + fecha + ", precio=" + precio + ", cantidad=" + cantidad + ", subtotal=" + subtotal + ", monto=" + monto + ", estado=" + estado + '}';
+    }
     
     
 }
