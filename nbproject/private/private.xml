@@ -4,11 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Hogar/Documents/NetBeansProjects/SistemasVentasWeb/src/java/Controlador/Controlador.java</file>
-            <file>file:/C:/Users/Hogar/Documents/NetBeansProjects/SistemasVentasWeb/src/java/Modelo/Producto.java</file>
-            <file>file:/C:/Users/Hogar/Documents/NetBeansProjects/SistemasVentasWeb/src/java/Modelo/ProductoDAO.java</file>
-            <file>file:/C:/Users/Hogar/Documents/NetBeansProjects/SistemasVentasWeb/web/Principal.jsp</file>
-            <file>file:/C:/Users/Hogar/Documents/NetBeansProjects/SistemasVentasWeb/web/Producto.jsp</file>
+            <file>file:/C:/Users/Hogar/Documents/NetBeansProjects/SistemasVentasWeb/web/RegistrarVenta.jsp</file>
+            <file>file:/C:/Users/Hogar/Documents/NetBeansProjects/SistemasVentasWeb/src/java/Modelo/ClienteDAO.java</file>
             <file>file:/C:/Users/Hogar/Documents/NetBeansProjects/SistemasVentasWeb/web/Clientes.jsp</file>
+            <file>file:/C:/Users/Hogar/Documents/NetBeansProjects/SistemasVentasWeb/web/Principal.jsp</file>
         </group>
     </open-files>
 </project-private>
