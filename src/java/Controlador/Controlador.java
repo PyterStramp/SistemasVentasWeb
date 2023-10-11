@@ -8,6 +8,8 @@ import Modelo.Cliente;
 import Modelo.ClienteDAO;
 import Modelo.Empleado;
 import Modelo.EmpleadoDAO;
+import Modelo.Producto;
+import Modelo.ProductoDAO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -25,6 +27,8 @@ public class Controlador extends HttpServlet {
     EmpleadoDAO edao = new EmpleadoDAO();
     Cliente cl = new Cliente();
     ClienteDAO cdao = new ClienteDAO();
+    Producto pr = new Producto();
+    ProductoDAO pdao = new ProductoDAO();
     int ide;
 
     /**
@@ -154,8 +158,69 @@ public class Controlador extends HttpServlet {
             }
             request.getRequestDispatcher("Clientes.jsp").forward(request, response);
         }
+        //separar para producto
         if (menu.equals("Producto")) {
-            request.getRequestDispatcher("Principal.jsp").forward(request, response);
+            switch (accion) {
+                case "Listar":
+                    System.out.println("Listar para producto");
+                    List lista = pdao.listar();
+                    request.setAttribute("productos", lista);
+                    break;
+                case "Agregar":
+                    System.out.println("Agregar para producto");
+                    
+                    String nom = request.getParameter("txtNombres");
+                    String precio = request.getParameter("doublePrecio");
+                    String stock = request.getParameter("intStock");
+                    String est = request.getParameter("txtEstado");
+                    pr.setNom(nom);
+                    pr.setPrecio(Double.parseDouble(precio));
+                    pr.setStock(Integer.parseInt(stock));
+                    pr.setEstado(est);
+                    pdao.agregar(pr);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                    
+                    break;
+                    
+                case "Editar":
+                    System.out.println("Editar para producto");
+                    
+                    ide = Integer.parseInt(request.getParameter("id"));
+                    Producto p = pdao.listarId(ide);
+                    request.setAttribute("producto", p);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                    
+                    break;
+                    
+                case "Actualizar":
+                    System.out.println("Actualizar para producto");
+                    
+                    String nom1 = request.getParameter("txtNombres");
+                    String precio1 = request.getParameter("doublePrecio");
+                    String stock1 = request.getParameter("intStock");
+                    String est1 = request.getParameter("txtEstado");
+                    pr.setNom(nom1);
+                    pr.setPrecio(Double.parseDouble(precio1));
+                    pr.setStock(Integer.parseInt(stock1));
+                    pr.setEstado(est1);
+                    pr.setId(ide);
+                    pdao.actualizar(pr);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                    
+                    break;
+                    
+                case "Delete":
+                    System.out.println("Delete para producto");
+                    
+                    ide = Integer.parseInt(request.getParameter("id"));
+                    pdao.delete(ide);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
+                    
+                    break;
+                default:
+                    throw new AssertionError();
+            }            
+            request.getRequestDispatcher("Producto.jsp").forward(request, response);
         }
         if (menu.equals("NuevaVenta")) {
             request.getRequestDispatcher("RegistrarVenta.jsp").forward(request, response);
