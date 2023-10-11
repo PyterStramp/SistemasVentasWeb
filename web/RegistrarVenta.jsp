@@ -47,7 +47,7 @@
                                     <input type="number"  name="cant" value="1" class="form-control" placeholder="Cantidad">
                                 </div>
                                 <div class="col-sm-3">
-                                    <input type="text"  name="stock" value="${producto.getStock()}" class="form-control" placeholder="Precio">
+                                    <input type="text"  name="stock" value="${producto.getStock()}" class="form-control" placeholder="Stock">
                                 </div>                          
                             </div>
                             <div class="form-group">
@@ -64,7 +64,7 @@
                     <div class="card-body">
                         <div class="d-flex col-sm-5 ml-auto">
                             <label>N° de serie</label>
-                            <input type="text" name="NroSerie" class="form-control">
+                            <input type="text" name="NroSerie" value="${nserie}" class="form-control">
                         </div>
                         <br>
                         <table class="table table-hover">
@@ -104,7 +104,7 @@
                             <input type="submit" name="accion" value="Cancelar" class="btn btn-danger">
                         </div>
                         <div class="col-sm-4 ml-auto">
-                            <input type="text" name="txtTotal" value="${totalpagar}" class="form-control">
+                            <input type="text" name="txtTotal" value="$/. ${totalpagar}0" class="form-control text-center font-weight-bold">
                         </div>
                     </div>
                 </div>

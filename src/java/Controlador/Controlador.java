@@ -11,6 +11,8 @@ import Modelo.EmpleadoDAO;
 import Modelo.Producto;
 import Modelo.ProductoDAO;
 import Modelo.Venta;
+import Modelo.VentaDAO;
+import config.GenerarSerie;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class Controlador extends HttpServlet {
     ClienteDAO cdao = new ClienteDAO();
     Producto pr = new Producto();
     ProductoDAO pdao = new ProductoDAO();
+    //venta
     Venta v = new Venta();
     List<Venta>lista = new ArrayList<>();
     int item=0;
@@ -40,6 +43,9 @@ public class Controlador extends HttpServlet {
     int cant;
     double subtotal;
     double totalPagar;
+    //numserie
+    String numeroserie;
+    VentaDAO vdao = new VentaDAO();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -232,6 +238,7 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("Producto.jsp").forward(request, response);
         }
         if (menu.equals("NuevaVenta")) {
+            v=new Venta();
             switch(accion) {
                 case "BuscarCliente":
                     String dni = request.getParameter("codigocliente");
@@ -242,11 +249,13 @@ public class Controlador extends HttpServlet {
                 case "BuscarProducto":
                     int id = Integer.parseInt(request.getParameter("codigoproducto"));
                     pr = pdao.listarId(id);
+                    request.setAttribute("c",cl);
                     request.setAttribute("producto", pr);
                     request.setAttribute("lista", lista);
                     request.setAttribute("totalpagar", totalPagar);
                     break;
                 case "AgregarProducto":
+                    request.setAttribute("c",cl);
                     totalPagar = 0.0;
                     item = item+1;
                     cod = pr.getId();
@@ -254,7 +263,7 @@ public class Controlador extends HttpServlet {
                     precio = Double.parseDouble(request.getParameter("precio"));
                     cant= Integer.parseInt(request.getParameter("cant"));
                     subtotal = precio*cant;
-                    v=new Venta();
+                    
                     v.setItem(item);
                     v.setIdproducto(cod);
                     v.setDescripcionP(descripcion);
@@ -270,6 +279,17 @@ public class Controlador extends HttpServlet {
                     break;
                     
                 default:
+                    numeroserie = vdao.GenerarSerie();
+                    if (numeroserie==null) {
+                        numeroserie="00000001";
+                        request.setAttribute("nserie", numeroserie);
+                    }
+                    else {
+                        int incrementar = Integer.parseInt(numeroserie);
+                        GenerarSerie gs = new GenerarSerie();
+                        numeroserie = gs.NumeroSerie(incrementar);
+                        request.setAttribute("nserie", numeroserie);
+                    }
                     request.getRequestDispatcher("RegistrarVenta.jsp").forward(request, response);
             }
             request.getRequestDispatcher("RegistrarVenta.jsp").forward(request, response);
