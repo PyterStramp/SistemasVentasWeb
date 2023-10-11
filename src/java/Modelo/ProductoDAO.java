@@ -17,7 +17,7 @@ public class ProductoDAO {
     ResultSet rs;
 
     //Operaciones del crud
-
+   
     public List listar() {
         String sql = "select * from producto";
         ArrayList<Producto> lista = new ArrayList<>();
@@ -111,4 +111,17 @@ public class ProductoDAO {
 
         }
     }    
+    
+    public void actualizarstock (int id, int stock) {
+        String sql = "update producto set Stock=? where IdProducto=?";
+        try {
+            con = cn.Conexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, stock);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+
+        }
+    }
 }

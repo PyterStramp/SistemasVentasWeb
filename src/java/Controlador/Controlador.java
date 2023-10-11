@@ -282,13 +282,24 @@ public class Controlador extends HttpServlet {
                     request.setAttribute("nserie", numeroserie);
                     break;
                 case "GenerarVenta":
+                    //stock
+                    
+                    for (int i =0; i<lista.size(); i++) {
+                        Producto pr = new Producto();
+                        int cantidad = lista.get(i).getCantidad();
+                        int idproducto = lista.get(i).getIdproducto();
+                        ProductoDAO aO = new ProductoDAO();
+                        pr=aO.listarId(idproducto);
+                        int stockactual = pr.getStock() - cantidad;
+                        aO.actualizarstock(idproducto, stockactual);
+                    }
+                    
                     //Guardar venta
                     v.setIdcliente(cl.getId());
                     v.setIdempleado(8);
                     v.setNumserie(numeroserie);
                     v.setFecha("2019-07-09");
                     v.setMonto(totalPagar);
-                    System.out.println("Desde el objeto"+v.getMonto());
                     v.setEstado("1");
                     vdao.guardarVenta(v);
                     //Guardar detalle venta
