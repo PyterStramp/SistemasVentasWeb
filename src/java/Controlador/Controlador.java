@@ -14,12 +14,15 @@ import Modelo.Venta;
 import Modelo.VentaDAO;
 import config.GenerarSerie;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;  
+import java.time.format.DateTimeFormatter;  
 
 /**
  *
@@ -317,7 +320,8 @@ public class Controlador extends HttpServlet {
                     v.setIdcliente(cl.getId());
                     v.setIdempleado(8);
                     v.setNumserie(numeroserie);
-                    v.setFecha("2019-07-09");
+                    LocalDate fechaDate = java.time.LocalDate.now();
+                    v.setFecha(fechaDate.toString());
                     v.setMonto(totalPagar);
                     v.setEstado("1");
                     vdao.guardarVenta(v);
