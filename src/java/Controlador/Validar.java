@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Validar extends HttpServlet {
     EmpleadoDAO edao = new EmpleadoDAO();
-    Empleado em = new Empleado();
+    Empleado usuarioLogin = new Empleado();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -76,9 +76,9 @@ public class Validar extends HttpServlet {
         if (accion.equalsIgnoreCase("Ingresar")) {
             String user = request.getParameter("txtuser");
             String pass = request.getParameter("txtpass");
-            em=edao.validar(user, pass);
-            if (em.getUser()!=null){
-                request.setAttribute("usuario", em);
+            usuarioLogin=edao.validar(user, pass);
+            if (usuarioLogin.getUser()!=null){
+                request.setAttribute("usuario", usuarioLogin);
                 request.getRequestDispatcher("Controlador?menu=Principal").forward(request,response);
             }
             else {

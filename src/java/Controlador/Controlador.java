@@ -8,6 +8,7 @@ import Modelo.Cliente;
 import Modelo.ClienteDAO;
 import Modelo.Empleado;
 import Modelo.EmpleadoDAO;
+import Modelo.EmpleadoDTO;
 import Modelo.Producto;
 import Modelo.ProductoDAO;
 import Modelo.Venta;
@@ -30,6 +31,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class Controlador extends HttpServlet {
     int ide;
+    EmpleadoDTO edto = new EmpleadoDTO();
     Empleado em = new Empleado();
     EmpleadoDAO edao = new EmpleadoDAO();
     Cliente cl = new Cliente();
@@ -62,11 +64,12 @@ public class Controlador extends HttpServlet {
             throws ServletException, IOException {
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
+        
         if (menu.equals("Empleado")) {
             switch (accion) {
                 case "Listar":
-                    List lista = edao.listar();
-                    request.setAttribute("empleados", lista);
+                    List listaEmpleado = edto.listarEmpleado();
+                    request.setAttribute("empleados", listaEmpleado);
                     break;
                 case "Agregar":
                     String dni = request.getParameter("txtDni");
@@ -74,17 +77,12 @@ public class Controlador extends HttpServlet {
                     String tel = request.getParameter("txtTel");
                     String est = request.getParameter("txtEstado");
                     String user = request.getParameter("txtUsuario");
-                    em.setDni(dni);
-                    em.setNom(nom);
-                    em.setTel(tel);
-                    em.setEstado(est);
-                    em.setUser(user);
-                    edao.agregar(em);
+                    edto.agregarEmpleado(dni, nom, tel, est, user);
                     request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
                     break;
                 case "Editar":
                     ide = Integer.parseInt(request.getParameter("id"));
-                    Empleado e = edao.listarId(ide);
+                    Empleado e = edto.editarEmpleado(ide);
                     request.setAttribute("empleado", e);
                     request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
                     break;
@@ -94,18 +92,12 @@ public class Controlador extends HttpServlet {
                     String tel1 = request.getParameter("txtTel");
                     String est1 = request.getParameter("txtEstado");
                     String user1 = request.getParameter("txtUsuario");
-                    em.setDni(dni1);
-                    em.setNom(nom1);
-                    em.setTel(tel1);
-                    em.setEstado(est1);
-                    em.setUser(user1);
-                    em.setId(ide);
-                    edao.actualizar(em);
+                    edto.actualizarEmpleado(dni1, nom1, tel1, est1, user1, ide);
                     request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
                     break;
                 case "Delete":
                     ide = Integer.parseInt(request.getParameter("id"));
-                    edao.delete(ide);
+                    edto.eliminarEmpleado(ide);
                     request.getRequestDispatcher("Controlador?menu=Empleado&accion=Listar").forward(request, response);
                     break;
                 default:
@@ -355,7 +347,7 @@ public class Controlador extends HttpServlet {
             }
             request.getRequestDispatcher("RegistrarVenta.jsp").forward(request, response);
         }
-        if (menu.equals("Principal")) {
+        if (menu.equals("Principal")) { 
             request.getRequestDispatcher("Principal.jsp").forward(request, response);
         }
     }
