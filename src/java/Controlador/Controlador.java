@@ -11,6 +11,7 @@ import Modelo.Empleado;
 import Modelo.EmpleadoDTO;
 import Modelo.Producto;
 import Modelo.ProductoDAO;
+import Modelo.ProductoDTO;
 import Modelo.Venta;
 import Modelo.VentaDAO;
 import config.GenerarSerie;
@@ -37,6 +38,7 @@ public class Controlador extends HttpServlet {
     ClienteDTO cdto = new ClienteDTO();
     Producto pr = new Producto();
     ProductoDAO pdao = new ProductoDAO();
+    ProductoDTO pdto = new ProductoDTO();
     //venta
     Venta v = new Venta();
     List<Venta>lista = new ArrayList<>();
@@ -144,63 +146,38 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("Clientes.jsp").forward(request, response);
         }
         //separar para producto
-        if (menu.equals("Producto")) {
+        if (menu.equals("Producto")) { //producto.jsp
             switch (accion) {
                 case "Listar":
-                    System.out.println("Listar para producto");
-                    List lista = pdao.listar();
+                    List lista = pdto.listarProducto();
                     request.setAttribute("productos", lista);
                     break;
                 case "Agregar":
-                    System.out.println("Agregar para producto");
-                    
                     String nom = request.getParameter("txtNombres");
                     String precio = request.getParameter("doublePrecio");
                     String stock = request.getParameter("intStock");
                     String est = request.getParameter("txtEstado");
-                    pr.setNom(nom);
-                    pr.setPrecio(Double.parseDouble(precio));
-                    pr.setStock(Integer.parseInt(stock));
-                    pr.setEstado(est);
-                    pdao.agregar(pr);
+                    pdto.agregarProductoe(nom, precio, stock, est);
                     request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                    
-                    break;
-                    
+                    break;                   
                 case "Editar":
-                    System.out.println("Editar para producto");
-                    
                     ide = Integer.parseInt(request.getParameter("id"));
-                    Producto p = pdao.listarId(ide);
+                    Producto p = pdto.editarProducto(ide);
                     request.setAttribute("producto", p);
                     request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                    
-                    break;
-                    
-                case "Actualizar":
-                    System.out.println("Actualizar para producto");
-                    
+                    break;               
+                case "Actualizar":       
                     String nom1 = request.getParameter("txtNombres");
                     String precio1 = request.getParameter("doublePrecio");
                     String stock1 = request.getParameter("intStock");
                     String est1 = request.getParameter("txtEstado");
-                    pr.setNom(nom1);
-                    pr.setPrecio(Double.parseDouble(precio1));
-                    pr.setStock(Integer.parseInt(stock1));
-                    pr.setEstado(est1);
-                    pr.setId(ide);
-                    pdao.actualizar(pr);
-                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                    
-                    break;
-                    
-                case "Delete":
-                    System.out.println("Delete para producto");
-                    
+                    pdto.actualizarProducto(nom1, precio1, stock1, est1, ide);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);     
+                    break;                   
+                case "Delete":                
                     ide = Integer.parseInt(request.getParameter("id"));
-                    pdao.delete(ide);
-                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);
-                    
+                    pdto.eliminarProducto(ide);
+                    request.getRequestDispatcher("Controlador?menu=Producto&accion=Listar").forward(request, response);               
                     break;
                 default:
                     throw new AssertionError();
