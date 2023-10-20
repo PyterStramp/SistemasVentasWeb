@@ -6,8 +6,8 @@ package Controlador;
 
 import Modelo.Cliente;
 import Modelo.ClienteDAO;
+import Modelo.ClienteDTO;
 import Modelo.Empleado;
-import Modelo.EmpleadoDAO;
 import Modelo.EmpleadoDTO;
 import Modelo.Producto;
 import Modelo.ProductoDAO;
@@ -32,10 +32,9 @@ import java.time.format.DateTimeFormatter;
 public class Controlador extends HttpServlet {
     int ide;
     EmpleadoDTO edto = new EmpleadoDTO();
-    Empleado em = new Empleado();
-    EmpleadoDAO edao = new EmpleadoDAO();
     Cliente cl = new Cliente();
     ClienteDAO cdao = new ClienteDAO();
+    ClienteDTO cdto = new ClienteDTO();
     Producto pr = new Producto();
     ProductoDAO pdao = new ProductoDAO();
     //venta
@@ -65,7 +64,7 @@ public class Controlador extends HttpServlet {
         String menu = request.getParameter("menu");
         String accion = request.getParameter("accion");
         
-        if (menu.equals("Empleado")) {
+        if (menu.equals("Empleado")) { //empleado para empleado.jsp
             switch (accion) {
                 case "Listar":
                     List listaEmpleado = edto.listarEmpleado();
@@ -106,62 +105,38 @@ public class Controlador extends HttpServlet {
             request.getRequestDispatcher("Empleado.jsp").forward(request, response);
         }
         //separar para cliente
-        if (menu.equals("Clientes")) {
+        if (menu.equals("Clientes")) { //para cliente.jsp
             switch (accion) {
                 case "Listar":
-                    System.out.println("Listar para cliente");
-                    List lista = cdao.listar();
+                    List lista = cdto.listarCliente();
                     request.setAttribute("clientes", lista);
                     break;
-                case "Agregar":
-                    System.out.println("Agregar para cliente");
-                    
+                case "Agregar":                  
                     String dni = request.getParameter("txtDni");
                     String nom = request.getParameter("txtNombres");
-                    String tel = request.getParameter("txtDir");
+                    String dir = request.getParameter("txtDir");
                     String est = request.getParameter("txtEstado");
-                    cl.setDni(dni);
-                    cl.setNom(nom);
-                    cl.setDir(tel);
-                    cl.setEstado(est);
-                    cdao.agregar(cl);
+                    cdto.agregarCliente(dni, nom, dir, est);
                     request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
-                    
-                    break;
-                    
-                case "Editar":
-                    System.out.println("Editar para cliente");                   
+                    break;   
+                case "Editar":               
                     ide = Integer.parseInt(request.getParameter("id"));
-                    Cliente c = cdao.listarId(ide);
+                    Cliente c = cdto.editarCliente(ide);
                     request.setAttribute("cliente", c);
                     request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
-                    
-                    break;
-                    
+                    break;                   
                 case "Actualizar":
-                    System.out.println("Actualizar para cliente");
-                    
                     String dni1 = request.getParameter("txtDni");
                     String nom1 = request.getParameter("txtNombres");
                     String dir1 = request.getParameter("txtDir");
                     String est1 = request.getParameter("txtEstado");
-                    cl.setDni(dni1);
-                    cl.setNom(nom1);
-                    cl.setDir(dir1);
-                    cl.setEstado(est1);
-                    cl.setId(ide);
-                    cdao.actualizar(cl);
-                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
-                    
-                    break;
-                    
-                case "Delete":
-                    System.out.println("Delete para cliente");
-                    
+                    cdto.actualizarCliente(dni1, nom1, dir1, est1, ide);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);      
+                    break;           
+                case "Delete":    
                     ide = Integer.parseInt(request.getParameter("id"));
-                    cdao.delete(ide);
-                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response);
-                    
+                    cdto.eliminarCliente(ide);
+                    request.getRequestDispatcher("Controlador?menu=Clientes&accion=Listar").forward(request, response); 
                     break;
                 default:
                     throw new AssertionError();
